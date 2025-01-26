@@ -1,0 +1,43 @@
+player_names = ['KL Rahul', 'virat kholi', 'Rohit Sharma', 'Suryakumar Yadav', 'Hardik Pandya','MS Dhoni','Ravindra Jadeja','Jasprit Singh']
+runs_scored = [50, 30, 70, 10, 90,62]
+wickets_taken = [2, 0, 1, 1, 0,4,3,2]  
+balls_bowled = [24, 0, 18, 12, 0,10,10,13] 
+innings_played = [1, 1, 1, 1, 1,1,1,1]  
+runs_conceded = [20, 0, 25, 15, 0,16,10,14]  
+player_points = []  
+
+total_runs = sum(runs_scored)
+total_wickets = sum(wickets_taken)
+
+batting_averages = [runs / innings if innings != 0 else 0 for runs, innings in zip(runs_scored, innings_played)]
+
+bowling_strike_rates = [balls / wickets if wickets != 0 else 0 for balls, wickets in zip(balls_bowled, wickets_taken)]
+
+for runs, wickets, balls in zip(runs_scored, wickets_taken, balls_bowled):
+    batting_points = runs // 10
+    bowling_points = wickets * 10
+    economy_points = (balls // 10) if balls > 0 else 0
+    total_points = batting_points + bowling_points + economy_points
+    player_points.append(total_points)
+
+top_performers = sorted(zip(player_names, player_points), key=lambda x: x[1], reverse=True)
+
+print("Team Total Runs:", total_runs)
+print("Team Total Wickets:", total_wickets)
+
+print("\nBatting Averages (Runs per innings):")
+for player, avg in zip(player_names, batting_averages):
+    print(f"{player}: {avg:.2f}")
+
+print("\nBowling Strike Rates (Balls per wicket):")
+for player, strike_rate in zip(player_names, bowling_strike_rates):
+    print(f"{player}: {strike_rate:.2f}")
+
+print("\nPlayer Performance Points (Based on runs, wickets, and economy):")
+for player, points in zip(player_names, player_points):
+    print(f"{player}: {points} points")
+
+print("\nTop Performers:")
+for player, points in top_performers:
+    print(f"{player}: {points} points")
+
