@@ -1,0 +1,47 @@
+party_names = ['Party A', 'Party B', 'Party A', 'Party B', 'Party A']
+candidate_names = ['Candidate A1', 'Candidate B1', 'Candidate A2', 'Candidate B2', 'Candidate A3']
+votes_received = [55000, 45000, 60000, 50000, 52000]
+constituencies = ['Constituency 1', 'Constituency 2', 'Constituency 3', 'Constituency 4', 'Constituency 5']
+
+party_votes = {}
+total_votes_in_constituencies = sum(votes_received)
+
+for i in range(len(party_names)):
+    party = party_names[i]
+    votes = votes_received[i]
+    if party in party_votes:
+        party_votes[party] += votes
+    else:
+        party_votes[party] = votes
+
+winners = []
+for i in range(len(votes_received)):
+    winning_party = party_names[i] if votes_received[i] == max(votes_received[i:i+2]) else None
+    winners.append(winning_party)
+
+party_vote_percentages = {}
+for party, total_votes in party_votes.items():
+    percentage = (total_votes / total_votes_in_constituencies) * 100
+    party_vote_percentages[party] = percentage
+
+close_contests = []
+for i in range(len(votes_received)):
+    margin = abs(votes_received[i] - max(votes_received[i:i+2]))
+    if margin < 30000:  
+        close_contests.append(constituencies[i])
+
+print("Total votes for each party:")
+for party, votes in party_votes.items():
+    print(f"{party}: {votes} votes")
+
+print("\nWinning party in each constituency:")
+for constituency, winner in zip(constituencies, winners):
+    print(f"{constituency}: {winner}")
+
+print("\nVote share percentages:")
+for party, percentage in party_vote_percentages.items():
+    print(f"{party}: {percentage:.2f}%")
+
+print("\nConstituencies with close contests (vote margin < 12000):")
+for constituency in close_contests:
+    print(f"- {constituency}")
